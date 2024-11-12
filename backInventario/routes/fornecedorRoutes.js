@@ -7,10 +7,10 @@ router.post('/fornecedor', (req, res) => {
 console.log (req.body);
 console.log(req.headers); // Para ver o Content-Type
 
-    const { name, cnpj, contact, address } = req.body;
+    const { nome, cnpj, contato, endereco } = req.body;
     db.run(
         `INSERT INTO Fornecedor (nome, cnpj, contato, endereco) VALUES (?, ?, ?, ?)`,
-        [name, cnpj, contact, address],
+        [nome, cnpj, contato, endereco],
         function (err) {
             if (err) {
                 return res.status(500).json({ error: err.message });
