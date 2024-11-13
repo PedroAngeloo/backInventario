@@ -7,10 +7,10 @@ router.post('/fornecedor', (req, res) => {
     console.log(req.body);
     console.log(req.headers); // Para ver o Content-Type
 
-    const { nome, cnpj, contato, endereco } = req.body;
+    const { name, cnpj, contact, address } = req.body;
     db.run(
-        `INSERT INTO Fornecedor (nome, cnpj, contato, endereco) VALUES (?, ?, ?, ?)`,
-        [nome, cnpj, contato, endereco],
+        `INSERT INTO Supplier (name, cnpj, contact, address) VALUES (?, ?, ?, ?)`,
+        [name, cnpj, contact, address],
         function (err) {
             if (err) {
                 return res.status(500).json({ error: err.message });
@@ -22,7 +22,7 @@ router.post('/fornecedor', (req, res) => {
 
 // Rota para obter todos os fornecedores
 router.get('/fornecedores', (req, res) => {
-    db.all('SELECT * FROM Fornecedor', [], (err, rows) => {
+    db.all('SELECT * FROM Supplier', [], (err, rows) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
@@ -33,11 +33,11 @@ router.get('/fornecedores', (req, res) => {
 // Rota para atualizar um fornecedor
 router.put('/fornecedor/:id', (req, res) => {
     const { id } = req.params;
-    const { nome, cnpj, contato, endereco } = req.body;
+    const { name, cnpj, contact, address } = req.body;
 
     db.run(
-        `UPDATE Fornecedor SET nome = ?, cnpj = ?, contato = ?, endereco = ? WHERE id = ?`,
-        [nome, cnpj, contato, endereco, id],
+        `UPDATE Supplier SET name = ?, cnpj = ?, contact = ?, address = ? WHERE id = ?`,
+        [name, cnpj, contact, address, id],
         function (err) {
             if (err) {
                 return res.status(500).json({ error: err.message });
@@ -54,7 +54,7 @@ router.put('/fornecedor/:id', (req, res) => {
 router.delete('/fornecedor/:id', (req, res) => {
     const { id } = req.params;
 
-    db.run(`DELETE FROM Fornecedor WHERE id = ?`, id, function (err) {
+    db.run(`DELETE FROM Supplier WHERE id = ?`, id, function (err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }

@@ -29,4 +29,41 @@ router.get('/usuarios', (req, res) => {
     });
 });
 
+router.put('/usuario/:id', (req, res) => {
+    const { id } = req.params;
+    const { nome, email, senha } = req.body;
+
+    db.run(
+        `UPDATE Usuario SET nome = ?, email = ?, senha = ? WHERE id = ?`,
+        [nome, email, senha, id],
+        function (err) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            if (this.changes === 0) {
+                return res.status(404).json({ message: 'Usuário não encontrado' });
+            }
+            res.status(200).json({ message: 'Usuário atualizado com sucesso' });
+        }
+    );
+});
+
+router.delete('/usuario/:id', (req, res) => {
+    const { id } = req.params;
+
+    db.run(
+        `DELETE FROM Usuario WHERE id = ?`,
+        [id],
+        function (err) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            if (this.changes === 0) {
+                return res.status(404).json({ message: 'Usuário não encontrado' });
+            }
+            res.status(200).json({ message: 'Usuário deletado com sucesso' });
+        }
+    );
+});
+
 module.exports = router;
